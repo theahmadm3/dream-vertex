@@ -23,7 +23,8 @@ function App() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      element.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
       setMobileMenuOpen(false);
     }
   };
@@ -224,16 +225,16 @@ function App() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
               <div className="flex space-x-4">
-                <IconButton className="text-white hover:text-blue-400 transition-colors">
+                <IconButton className="text-white hover:text-blue-400 transition-colors" aria-label="Visit our Facebook page">
                   <Facebook />
                 </IconButton>
-                <IconButton className="text-white hover:text-blue-400 transition-colors">
+                <IconButton className="text-white hover:text-blue-400 transition-colors" aria-label="Visit our Twitter page">
                   <Twitter />
                 </IconButton>
-                <IconButton className="text-white hover:text-pink-400 transition-colors">
+                <IconButton className="text-white hover:text-pink-400 transition-colors" aria-label="Visit our Instagram page">
                   <Instagram />
                 </IconButton>
-                <IconButton className="text-white hover:text-blue-400 transition-colors">
+                <IconButton className="text-white hover:text-blue-400 transition-colors" aria-label="Visit our LinkedIn page">
                   <LinkedIn />
                 </IconButton>
               </div>
@@ -340,9 +341,9 @@ function MediaItem({ item, className }) {
         <video
           src={item.src}
           controls
-          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           onLoadedData={() => setIsLoaded(true)}
+          preload="metadata"
         />
         {!isLoaded && (
           <div className="absolute inset-0 bg-gray-200 animate-pulse" />
